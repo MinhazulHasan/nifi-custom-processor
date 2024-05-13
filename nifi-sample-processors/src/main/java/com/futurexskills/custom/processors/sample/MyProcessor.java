@@ -46,11 +46,11 @@ import java.util.Set;
 public class MyProcessor extends AbstractProcessor {
 
     public static final PropertyDescriptor MY_PROPERTY = new PropertyDescriptor
-            .Builder().name("MY_PROPERTY")
+            .Builder().name("Wikipedia Page URL")
             .displayName("My property")
             .description("The URL of the Wikipedia page to fetch content from.")
             .required(true)
-            .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
+            .addValidator(StandardValidators.URL_VALIDATOR)
             .build();
 
     public static final Relationship SUCCESS = new Relationship.Builder()
@@ -96,10 +96,22 @@ public class MyProcessor extends AbstractProcessor {
 
     @Override
     public void onTrigger(final ProcessContext context, final ProcessSession session) {
-        FlowFile flowFile = session.get();
-        if (flowFile == null) {
-            return;
+        FlowFile flowFile = session.create();
+
+        try {
+            final URL url = new URL(context.getProperty(WIKIPEDIA_PAGE_URL).getValue());
+            final URLConnection connection = url.openConnection();
+            connection.connect();
+
+            try (InputStream inputStream = connection.getInputStream();
+                 OutputStream outputStream = session.write(flowFile)) {
+                outputStream.write(inputStream.readAllBytes());
+            }
+
+            session.transfer(flowFile, SUCCESS);
+        } catch (IOException e) {
+            getLogger().error("Failed to fetch content from Wikipedia page", e);
+            session.transfer(flowFile, FAILURE);
         }
-        session.transfer(flowFile, SUCCESS);
     }
 }
