@@ -1,0 +1,23 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+nifi-sample-nar
+
+
+From: 'Apache NiFi Project' (https://nifi.apache.org/)
+
+  - nifi-sample-processors (https://nifi.apache.org/nifi-nar-bundles/nifi-custom-processor/nifi-sample-processors) com.futurexskills.custom:nifi-sample-processors:jar:1.0-SNAPSHOT
+    License: Apache License, Version 2.0  (https://www.apache.org/licenses/LICENSE-2.0)
+
+  - nifi-property-utils (https://nifi.apache.org/nifi-commons/nifi-property-utils) org.apache.nifi:nifi-property-utils:jar:1.25.0
+    License: Apache License, Version 2.0  (https://www.apache.org/licenses/LICENSE-2.0)
+
+  - nifi-utils (https://nifi.apache.org/nifi-commons/nifi-utils) org.apache.nifi:nifi-utils:jar:1.25.0
+    License: Apache License, Version 2.0  (https://www.apache.org/licenses/LICENSE-2.0)
+
+
+
+
+
